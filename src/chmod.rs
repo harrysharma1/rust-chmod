@@ -46,6 +46,7 @@ impl Chmod{
             println!("Not correct length");
             return;
         }
+        
         let user =&symbolic[0..3].to_string();
         let group = &symbolic[3..6].to_string();
         let owner = &symbolic[6..9].to_string();
