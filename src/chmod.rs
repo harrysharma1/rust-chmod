@@ -49,6 +49,24 @@ impl Chmod{
         symbolic_to_octal.insert("rw-".to_string(), 6);
         symbolic_to_octal.insert("rwx".to_string(), 7);
         
+        for character in symbolic.chars(){
+            match character{
+                'r'|'w'|'x'|'-'=>{
+
+                },
+                _=>{
+                    if character.is_numeric(){
+                        print!("-- {} is a number -- \n",character);
+                    }else if !character.is_alphabetic(){
+                        print!("-- {} is not even alphabetic --\n",character);
+                    }else{
+                        print!("-- {} is an incorrect value or in the incorrect order --\n-- Remember it has to be in the rwx format --\n",character);
+                    }
+                }
+
+            }
+        }
+
         if symbolic.len()!=9{
             println!("Not correct length");
             return;
