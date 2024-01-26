@@ -26,7 +26,7 @@ fn main() {
                     }
                     
                 },
-                None=>println!("Error"),
+                None=>println!("Value not recognised due to parsing error"),
                 
             }
           
@@ -37,9 +37,8 @@ fn main() {
                 Some(_)=>{
                     let val_str = value.unwrap();
                     chmod.convert_symbolic_to_octal(val_str.to_string());
-
                 },
-                None=>println!("Error"),
+                None=>println!("Value not recognised due to parsing error"),
             }
 
         },
