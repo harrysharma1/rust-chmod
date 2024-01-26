@@ -19,6 +19,12 @@ impl Chmod{
         octal_to_symbolic.insert(5, "r-x".to_string());
         octal_to_symbolic.insert(6, "rw-".to_string());
         octal_to_symbolic.insert(7, "rwx".to_string());
+
+        if octal<100 || octal>999{
+            println!("Not correct length");
+            return;
+        }
+
         let owner:u16 = octal % 10;
         let group:u16 = (octal/10)%10;
         let user:u16  = (octal/100)%10;
@@ -42,11 +48,12 @@ impl Chmod{
         symbolic_to_octal.insert("r-x".to_string(), 5);
         symbolic_to_octal.insert("rw-".to_string(), 6);
         symbolic_to_octal.insert("rwx".to_string(), 7);
+        
         if symbolic.len()!=9{
             println!("Not correct length");
             return;
         }
-        
+
         let user =&symbolic[0..3].to_string();
         let group = &symbolic[3..6].to_string();
         let owner = &symbolic[6..9].to_string();
