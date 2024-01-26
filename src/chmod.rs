@@ -49,23 +49,7 @@ impl Chmod{
         symbolic_to_octal.insert("rw-".to_string(), 6);
         symbolic_to_octal.insert("rwx".to_string(), 7);
         
-        for character in symbolic.chars(){
-            match character{
-                'r'|'w'|'x'|'-'=>{
-
-                },
-                _=>{
-                    if character.is_numeric(){
-                        print!("-- {} is a number -- \n",character);
-                    }else if !character.is_alphabetic(){
-                        print!("-- {} is not even alphabetic --\n",character);
-                    }else{
-                        print!("-- {} is an incorrect value or in the incorrect order --\n-- Remember it has to be in the rwx format --\n",character);
-                    }
-                }
-
-            }
-        }
+        self.symbolic_error_check(&symbolic);
 
         if symbolic.len()!=9{
             println!("Not correct length");
@@ -82,18 +66,55 @@ impl Chmod{
         let group_octal = symbolic_to_octal.get(group);
         let owner_octal = symbolic_to_octal.get(owner);
         match (user_octal,group_octal,owner_octal){
-            (None, None, None) => print!("{}{}{}",binding,binding,binding),
-            (None, None, Some(_)) => print!("{}{}{}",binding,binding,owner_octal.unwrap()),
-            (None, Some(_), None) => print!("{}{}{}",binding,group_octal.unwrap(),binding),
-            (None, Some(_), Some(_)) => print!("{}{}{}",binding,group_octal.unwrap(),owner_octal.unwrap()),
-            (Some(_), None, None) => print!("{}{}{}",user_octal.unwrap(),binding,binding),
-            (Some(_), None, Some(_)) => print!("{}{}{}",user_octal.unwrap(),binding,owner_octal.unwrap()),
-            (Some(_), Some(_), None) => print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),binding),
-            (Some(_), Some(_), Some(_)) => print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap()),
+            (None, None, None) => {
+                print!("{}{}{}",binding,binding,binding)
+            },
+            (None, None, Some(_)) => {
+                print!("{}{}{}",binding,binding,owner_octal.unwrap())
+            },
+            (None, Some(_), None) => {
+                print!("{}{}{}",binding,group_octal.unwrap(),binding)
+            },
+            (None, Some(_), Some(_)) => {
+                print!("{}{}{}",binding,group_octal.unwrap(),owner_octal.unwrap())
+            },
+            (Some(_), None, None) => {
+                print!("{}{}{}",user_octal.unwrap(),binding,binding)
+            },
+            (Some(_), None, Some(_)) => {
+                print!("{}{}{}",user_octal.unwrap(),binding,owner_octal.unwrap())
+            },
+            (Some(_), Some(_), None) => {
+                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),binding)
+            },
+            (Some(_), Some(_), Some(_)) => {
+                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap())
+            },
         }
 
         println!("");
         
 
+    }
+
+
+    pub fn symbolic_error_check(&self,val:&String){
+        for character in val.chars(){
+            match character{
+                'r'|'w'|'x'|'-'=>{
+
+                },
+                _=>{
+                    if character.is_numeric(){
+                        print!("-- {} is a number -- \n",character);
+                    }else if !character.is_alphabetic(){
+                        print!("-- {} is not even alphabetic --\n",character);
+                    }else{
+                        print!("-- {} is an incorrect value or in the incorrect order --\n-- Remember it has to be in the rwx format --\n",character);
+                    }
+                }
+
+            }
+        }
     }  
 }
