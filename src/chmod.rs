@@ -98,7 +98,7 @@ impl Chmod{
     }
 
 
-    pub fn symbolic_error_check(&self,val:&String){
+    fn symbolic_error_check(&self,val:&String){
         for character in val.chars(){
             match character{
                 'r'|'w'|'x'|'-'=>{
