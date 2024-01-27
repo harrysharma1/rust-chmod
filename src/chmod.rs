@@ -106,11 +106,11 @@ impl Chmod{
                 },
                 _=>{
                     if character.is_numeric(){
-                        print!("-- {} is a number -- \n",character);
+                        print!("<{} is a number>",character);
                     }else if !character.is_alphabetic(){
-                        print!("-- {} is not even alphabetic --\n",character);
+                        print!("<{} is not even alphabetic>",character);
                     }else{
-                        print!("-- {} is an incorrect value or in the incorrect order --\n-- Remember it has to be in the rwx format --\n",character);
+                        print!("{} is an incorrect value or in the incorrect order>",character);
                     }
                 }
 
