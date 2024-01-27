@@ -49,7 +49,6 @@ impl Chmod{
         symbolic_to_octal.insert("rw-".to_string(), 6);
         symbolic_to_octal.insert("rwx".to_string(), 7);
         
-        self.symbolic_error_check(&symbolic);
 
         if symbolic.len()!=9{
             println!("Not correct length");
@@ -60,35 +59,35 @@ impl Chmod{
         let group = &symbolic[3..6].to_string();
         let owner = &symbolic[6..9].to_string();
         
-        let binding = BINDING.to_string();
+
 
         let user_octal = symbolic_to_octal.get(user);
         let group_octal = symbolic_to_octal.get(group);
         let owner_octal = symbolic_to_octal.get(owner);
         match (user_octal,group_octal,owner_octal){
             (None, None, None) => {
-                print!("{}{}{}",binding,binding,binding)
+                print!("{:?}{:?}{:?}",self.symbolic_error_check(user),self.symbolic_error_check(group),self.symbolic_error_check(owner));
             },
             (None, None, Some(_)) => {
-                print!("{}{}{}",binding,binding,owner_octal.unwrap())
+                print!("{:?}{:?}{}",self.symbolic_error_check(user),self.symbolic_error_check(group),owner_octal.unwrap());
             },
             (None, Some(_), None) => {
-                print!("{}{}{}",binding,group_octal.unwrap(),binding)
+                print!("{:?}{}{:?}",self.symbolic_error_check(user),group_octal.unwrap(),self.symbolic_error_check(owner));
             },
             (None, Some(_), Some(_)) => {
-                print!("{}{}{}",binding,group_octal.unwrap(),owner_octal.unwrap())
+                print!("{:?}{}{}",self.symbolic_error_check(user),group_octal.unwrap(),owner_octal.unwrap());
             },
             (Some(_), None, None) => {
-                print!("{}{}{}",user_octal.unwrap(),binding,binding)
+                print!("{}{:?}{:?}",user_octal.unwrap(),self.symbolic_error_check(group),self.symbolic_error_check(owner));
             },
             (Some(_), None, Some(_)) => {
-                print!("{}{}{}",user_octal.unwrap(),binding,owner_octal.unwrap())
+                print!("{}{:?}{}",user_octal.unwrap(),self.symbolic_error_check(group),owner_octal.unwrap());
             },
             (Some(_), Some(_), None) => {
-                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),binding)
+                print!("{}{}{:?}",user_octal.unwrap(),group_octal.unwrap(),self.symbolic_error_check(owner));
             },
             (Some(_), Some(_), Some(_)) => {
-                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap())
+                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap());
             },
         }
 
@@ -99,22 +98,27 @@ impl Chmod{
 
 
     fn symbolic_error_check(&self,val:&String){
+        let mut error = "".to_string();
         for character in val.chars(){
             match character{
                 'r'|'w'|'x'|'-'=>{
-
                 },
                 _=>{
                     if character.is_numeric(){
-                        print!("<{} is a number>",character);
+                        let error_numeric = format!("<Err: {} is a number>\n",character);
+                        error.push_str(&error_numeric);
                     }else if !character.is_alphabetic(){
-                        print!("<{} is not even alphabetic>",character);
+                        let error_alphabetic = format!("<Err: {} is not alphabetic>\n",character);
+                        error.push_str(&error_alphabetic);
                     }else{
-                        print!("{} is an incorrect value or in the incorrect order>",character);
+                        let error_format = format!("<Err: {} is incorrect format>\n",character);
+                        error.push_str(&error_format);
                     }
                 }
 
             }
         }
+        println!("{}",error);
+        
     }  
 }
