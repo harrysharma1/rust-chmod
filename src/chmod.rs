@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
-const BINDING: &str = "<Incorrect Value>";
+
+
+const BINDING: &str = "()";
 #[allow(dead_code)]
 pub struct Chmod{
 
@@ -21,13 +23,17 @@ impl Chmod{
         octal_to_symbolic.insert(7, "rwx".to_string());
 
         if octal<100 || octal>999{
-            println!("Not correct length");
+            println!("<Err: Not correct length>");
             return;
         }
 
-        let owner:u16 = octal % 10;
-        let group:u16 = (octal/10)%10;
         let user:u16  = (octal/100)%10;
+        let group:u16 = (octal/10)%10;
+        let owner:u16 = octal % 10;
+
+        self.octal_error_check(user);
+        self.octal_error_check(group);
+        self.octal_error_check(owner);
 
         let binding = BINDING.to_string();
         let user_string = octal_to_symbolic.get(&user).unwrap_or(&binding);
@@ -120,5 +126,20 @@ impl Chmod{
         }
         println!("{}",error);
         
+    }
+
+    fn octal_error_check(&self, val:u16){
+        match val {
+            8|9=>{
+                let error_more_than_seven = &format!("<Err: {} is higher than 7>\n",val);
+                print!("{}",error_more_than_seven);
+            },
+            _=>{
+                
+            }
+            
+        }
+    
+    
     }  
 }
