@@ -121,7 +121,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-chmod"
+name = "rust-chmod-conversion"
 version = "0.1.0"
 dependencies = [
  "clap",
