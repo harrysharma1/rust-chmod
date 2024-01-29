@@ -1,5 +1,5 @@
 [package]
-name = "rust-chmod-conversion"
+name = "chmod-conversion"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/harrysharma1/rust-chmod"
