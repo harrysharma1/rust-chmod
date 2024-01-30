@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 
-
-
 const BINDING: &str = "()";
 #[allow(dead_code)]
 pub struct Chmod{
@@ -55,7 +53,6 @@ impl Chmod{
         symbolic_to_octal.insert("rw-".to_string(), 6);
         symbolic_to_octal.insert("rwx".to_string(), 7);
         
-
         if symbolic.len()!=9{
             println!("Not correct length");
             return;
@@ -141,5 +138,7 @@ impl Chmod{
         }
     
     
-    }  
+    }
+
+
 }
