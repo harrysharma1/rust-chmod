@@ -24,10 +24,10 @@ impl Chmod{
         octal_to_symbolic.get(&key).unwrap_or(&binding.to_string()).to_string()
     }
     
-    pub fn convert_octal_to_symbolic(&self,octal:u16){
+    pub fn convert_octal_to_symbolic(&self,octal:u16)->String{
         if octal<100 || octal>999{
-            println!("<Err: Not correct length>");
-            return;
+            let error_incorrect_length = "<Err: Not correct length>".to_string();
+            return error_incorrect_length;      
         }
 
         let user:u16  = (octal/100)%10;
@@ -41,8 +41,8 @@ impl Chmod{
         let user_string = self.map_octal(user);
         let group_string = self.map_octal(group);
         let owner_string = self.map_octal(owner);
-        print!("{}{}{}",user_string,group_string,owner_string);
-        println!("");
+        let full_string = format!("{}{}{}\n",user_string,group_string,owner_string);
+        full_string
 
     } 
 

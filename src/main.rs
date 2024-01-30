@@ -20,7 +20,8 @@ fn main() {
                     let val_str = value.unwrap();
                     match val_str.parse::<u16>(){
                         Ok(val_int) => {
-                            chmod.convert_octal_to_symbolic(val_int);
+                            print!("{}",chmod.convert_octal_to_symbolic(val_int));
+                            
                         },
                         Err(_) => println!("Not an Integer"),
                     }
