@@ -8,8 +8,7 @@ pub struct Chmod{
 
 
 impl Chmod{
-    
-    pub fn convert_octal_to_symbolic(&self,octal:u16){
+    fn map_octal(&self,key:u16)->String{
         let mut octal_to_symbolic:HashMap<u16,String> = HashMap::new(); 
         octal_to_symbolic.insert(0, "---".to_string());
         octal_to_symbolic.insert(1, "--x".to_string());
@@ -20,6 +19,12 @@ impl Chmod{
         octal_to_symbolic.insert(6, "rw-".to_string());
         octal_to_symbolic.insert(7, "rwx".to_string());
 
+        let binding = BINDING.to_string();
+
+        octal_to_symbolic.get(&key).unwrap_or(&binding.to_string()).to_string()
+    }
+    
+    pub fn convert_octal_to_symbolic(&self,octal:u16){
         if octal<100 || octal>999{
             println!("<Err: Not correct length>");
             return;
@@ -33,10 +38,9 @@ impl Chmod{
         self.octal_error_check(group);
         self.octal_error_check(owner);
 
-        let binding = BINDING.to_string();
-        let user_string = octal_to_symbolic.get(&user).unwrap_or(&binding);
-        let group_string = octal_to_symbolic.get(&group).unwrap_or(&binding);
-        let owner_string = octal_to_symbolic.get(&owner).unwrap_or(&binding);
+        let user_string = self.map_octal(user);
+        let group_string = self.map_octal(group);
+        let owner_string = self.map_octal(owner);
         print!("{}{}{}",user_string,group_string,owner_string);
         println!("");
 
@@ -98,6 +102,7 @@ impl Chmod{
         
 
     }
+
 
 
     fn symbolic_error_check(&self,val:&String){
