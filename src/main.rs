@@ -20,7 +20,8 @@ fn main() {
                     let val_str = value.unwrap();
                     match val_str.parse::<u16>(){
                         Ok(val_int) => {
-                            chmod.convert_octal_to_symbolic(val_int);
+                            print!("{}",chmod.convert_octal_to_symbolic(val_int));
+                            
                         },
                         Err(_) => println!("Not an Integer"),
                     }
@@ -36,7 +37,7 @@ fn main() {
             match value{
                 Some(_)=>{
                     let val_str = value.unwrap();
-                    chmod.convert_symbolic_to_octal(val_str.to_string());
+                    println!("{}",chmod.convert_symbolic_to_octal(val_str.to_string()));
                 },
                 None=>println!("Value not recognised due to parsing error"),
             }
