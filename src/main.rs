@@ -23,11 +23,11 @@ fn main() {
                             print!("{}",chmod.convert_octal_to_symbolic(val_int));
                             
                         },
-                        Err(_) => println!("Not an Integer"),
+                        Err(_) => println!("<Err: Not an Integer>"),
                     }
                     
                 },
-                None=>println!("Value not recognised due to parsing error"),
+                None=>println!("<Err: Value not recognised due to parsing error>"),
                 
             }
           
@@ -39,7 +39,7 @@ fn main() {
                     let val_str = value.unwrap();
                     println!("{}",chmod.convert_symbolic_to_octal(val_str.to_string()));
                 },
-                None=>println!("Value not recognised due to parsing error"),
+                None=>println!("<Err: Value not recognised due to parsing error>"),
             }
 
         },
