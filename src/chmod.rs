@@ -25,7 +25,7 @@ impl Chmod{
 
         octal_to_symbolic.get(&key).unwrap_or(&binding.to_string()).to_string()
     }
-    
+        
     pub fn convert_octal_to_symbolic(&self,octal:u16)->String{
         if octal>999{
             let error_incorrect_length = "<Err: Not correct length>\n".to_string();
