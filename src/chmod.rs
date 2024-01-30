@@ -121,7 +121,7 @@ impl Chmod{
         match val {
             8|9=>{
                 let error_more_than_seven = &format!("<Err: {} is higher than 7>\n",val);
-                print!("{}",error_more_than_seven);
+                println!("{}",error_more_than_seven);
             },
             _=>{
                 
