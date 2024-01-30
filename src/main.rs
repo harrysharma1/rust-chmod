@@ -37,7 +37,7 @@ fn main() {
             match value{
                 Some(_)=>{
                     let val_str = value.unwrap();
-                    chmod.convert_symbolic_to_octal(val_str.to_string());
+                    println!("{}",chmod.convert_symbolic_to_octal(val_str.to_string()));
                 },
                 None=>println!("Value not recognised due to parsing error"),
             }

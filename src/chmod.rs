@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+
+
 const BINDING: &str = "()";
 #[allow(dead_code)]
 pub struct Chmod{
@@ -44,9 +46,33 @@ impl Chmod{
         let full_string = format!("{}{}{}\n",user_string,group_string,owner_string);
         full_string
 
-    } 
+    }
 
-    pub fn convert_symbolic_to_octal(&self,symbolic:String){
+    fn map_symbolic(&self,key:String)->String{
+        let mut symbolic_to_octal: HashMap<String, u16> = HashMap::new();
+        symbolic_to_octal.insert("---".to_string(), 0);
+        symbolic_to_octal.insert("--x".to_string(), 1);
+        symbolic_to_octal.insert("-w-".to_string(), 2);
+        symbolic_to_octal.insert("-wx".to_string(), 3);
+        symbolic_to_octal.insert("r--".to_string(), 4);
+        symbolic_to_octal.insert("r-x".to_string(), 5);
+        symbolic_to_octal.insert("rw-".to_string(), 6);
+        symbolic_to_octal.insert("rwx".to_string(), 7);
+
+        let value = symbolic_to_octal.get(&key);
+        match value{
+            Some(_)=>{
+                let ret_val= format!("{}",*value.unwrap());
+                ret_val
+            },
+            None =>{
+                let ret_val = format!("{:?}",self.symbolic_error_check(&key));
+                ret_val
+            },
+        }
+    }
+
+    pub fn convert_symbolic_to_octal(&self,symbolic:String)->String{
         let mut symbolic_to_octal: HashMap<String, u16> = HashMap::new();
         symbolic_to_octal.insert("---".to_string(), 0);
         symbolic_to_octal.insert("--x".to_string(), 1);
@@ -58,47 +84,48 @@ impl Chmod{
         symbolic_to_octal.insert("rwx".to_string(), 7);
         
         if symbolic.len()!=9{
-            println!("Not correct length");
-            return;
+            let error_incorrect_length = "<Err: Not correct length>".to_string();
+            return error_incorrect_length;
         }
 
         let user =&symbolic[0..3].to_string();
         let group = &symbolic[3..6].to_string();
         let owner = &symbolic[6..9].to_string();
         
+        
 
+        let user_octal = self.map_symbolic(user.to_string());
+        let group_octal = self.map_symbolic(group.to_string());
+        let owner_octal = self.map_symbolic(owner.to_string());
+        // match (user_octal,group_octal,owner_octal){
+        //     (None, None, None) => {
+        //         print!("{:?}{:?}{:?}",self.symbolic_error_check(user),self.symbolic_error_check(group),self.symbolic_error_check(owner));
+        //     },
+        //     (None, None, Some(_)) => {
+        //         print!("{:?}{:?}{}",self.symbolic_error_check(user),self.symbolic_error_check(group),owner_octal.unwrap());
+        //     },
+        //     (None, Some(_), None) => {
+        //         print!("{:?}{}{:?}",self.symbolic_error_check(user),group_octal.unwrap(),self.symbolic_error_check(owner));
+        //     },1
+        //     (None, Some(_), Some(_)) => {
+        //         print!("{:?}{}{}",self.symbolic_error_check(user),group_octal.unwrap(),owner_octal.unwrap());
+        //     },
+        //     (Some(_), None, None) => {
+        //         print!("{}{:?}{:?}",user_octal.unwrap(),self.symbolic_error_check(group),self.symbolic_error_check(owner));
+        //     },
+        //     (Some(_), None, Some(_)) => {
+        //         print!("{}{:?}{}",user_octal.unwrap(),self.symbolic_error_check(group),owner_octal.unwrap());
+        //     },
+        //     (Some(_), Some(_), None) => {
+        //         print!("{}{}{:?}",user_octal.unwrap(),group_octal.unwrap(),self.symbolic_error_check(owner));
+        //     },
+        //     (Some(_), Some(_), Some(_)) => {
+        //         print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap());
+        //     },
+        // }
+        let full_string = format!("{}{}{}",user_octal,group_octal,owner_octal);
+        full_string
 
-        let user_octal = symbolic_to_octal.get(user);
-        let group_octal = symbolic_to_octal.get(group);
-        let owner_octal = symbolic_to_octal.get(owner);
-        match (user_octal,group_octal,owner_octal){
-            (None, None, None) => {
-                print!("{:?}{:?}{:?}",self.symbolic_error_check(user),self.symbolic_error_check(group),self.symbolic_error_check(owner));
-            },
-            (None, None, Some(_)) => {
-                print!("{:?}{:?}{}",self.symbolic_error_check(user),self.symbolic_error_check(group),owner_octal.unwrap());
-            },
-            (None, Some(_), None) => {
-                print!("{:?}{}{:?}",self.symbolic_error_check(user),group_octal.unwrap(),self.symbolic_error_check(owner));
-            },
-            (None, Some(_), Some(_)) => {
-                print!("{:?}{}{}",self.symbolic_error_check(user),group_octal.unwrap(),owner_octal.unwrap());
-            },
-            (Some(_), None, None) => {
-                print!("{}{:?}{:?}",user_octal.unwrap(),self.symbolic_error_check(group),self.symbolic_error_check(owner));
-            },
-            (Some(_), None, Some(_)) => {
-                print!("{}{:?}{}",user_octal.unwrap(),self.symbolic_error_check(group),owner_octal.unwrap());
-            },
-            (Some(_), Some(_), None) => {
-                print!("{}{}{:?}",user_octal.unwrap(),group_octal.unwrap(),self.symbolic_error_check(owner));
-            },
-            (Some(_), Some(_), Some(_)) => {
-                print!("{}{}{}",user_octal.unwrap(),group_octal.unwrap(),owner_octal.unwrap());
-            },
-        }
-
-        println!("");
         
 
     }
