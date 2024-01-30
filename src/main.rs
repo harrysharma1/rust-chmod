@@ -23,7 +23,7 @@ fn main() {
                             print!("{}",chmod.convert_octal_to_symbolic(val_int));
                             
                         },
-                        Err(_) => println!("<Err: Not an Integer>"),
+                        Err(_) => println!("<Err: Not a positive integer>"),
                     }
                     
                 },
