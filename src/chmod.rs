@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 
 const BINDING: &str = "()";
-#[allow(dead_code)]
+
 pub struct Chmod{
 
 }
@@ -162,5 +162,32 @@ mod test{
         assert_eq!(A.convert_symbolic_to_octal("123abxxyz".to_string()).to_string(),"()()()".to_string());
         assert_eq!(A.convert_symbolic_to_octal("---------".to_string()).to_string(),"000".to_string());
         assert_eq!(A.convert_symbolic_to_octal("--------x".to_string()).to_string(),"001".to_string());
+    }
+
+    #[test]
+    fn test_octal_map(){
+        assert_eq!(A.map_octal(0),"---".to_string());
+        assert_eq!(A.map_octal(1),"--x".to_string());
+        assert_eq!(A.map_octal(2),"-w-".to_string());
+        assert_eq!(A.map_octal(3),"-wx".to_string());
+        assert_eq!(A.map_octal(4),"r--".to_string());
+        assert_eq!(A.map_octal(5),"r-x".to_string());
+        assert_eq!(A.map_octal(6),"rw-".to_string());
+        assert_eq!(A.map_octal(7),"rwx".to_string());
+        assert_eq!(A.map_octal(8),"()".to_string());
+        assert_eq!(A.map_octal(9),"()".to_string());
+        assert_eq!(A.map_octal(10),"()".to_string());
+
+    }
+    #[test]
+    fn test_symbolic_map(){
+        assert_eq!(A.map_symbolic("---".to_string()),"0".to_string());
+        assert_eq!(A.map_symbolic("--x".to_string()),"1".to_string());
+        assert_eq!(A.map_symbolic("-w-".to_string()),"2".to_string());
+        assert_eq!(A.map_symbolic("-wx".to_string()),"3".to_string());
+        assert_eq!(A.map_symbolic("r--".to_string()),"4".to_string());
+        assert_eq!(A.map_symbolic("r-x".to_string()),"5".to_string());
+        assert_eq!(A.map_symbolic("rw-".to_string()),"6".to_string());
+        assert_eq!(A.map_symbolic("rwx".to_string()),"7".to_string());
     }
 }
