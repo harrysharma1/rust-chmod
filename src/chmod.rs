@@ -131,6 +131,36 @@ impl Chmod{
     
     
     }
+}
 
+#[cfg(test)]
+mod test{
+    use super::*;
+    const A: self::Chmod = Chmod{};
+    
+    #[test]
+    fn test_octal_conversions(){
+      assert_eq!(A.convert_octal_to_symbolic(123),"--x-w--wx\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(000),"---------\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(777),"rwxrwxrwx\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(467),"r--rw-rwx\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(999),"()()()\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(192),"--x()-w-\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(129),"--x-w-()\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(188),"--x()()\n".to_string());
+      assert_eq!(A.convert_octal_to_symbolic(828),"()-w-()\n".to_string());
 
+    }
+
+    #[test]
+    fn test_symbolic_conversion(){
+        assert_eq!(A.convert_symbolic_to_octal("rwxrwxrwx".to_string()).to_string(),"777".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("rw-r-x--x".to_string()).to_string(),"651".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("abcrwx123".to_string()).to_string(),"()7()".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("111abc--x".to_string()).to_string(),"()()1".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("r-x1bc223".to_string()).to_string(),"5()()".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("123abxxyz".to_string()).to_string(),"()()()".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("---------".to_string()).to_string(),"000".to_string());
+        assert_eq!(A.convert_symbolic_to_octal("--------x".to_string()).to_string(),"001".to_string());
+    }
 }
