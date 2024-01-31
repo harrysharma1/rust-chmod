@@ -1,5 +1,7 @@
 # rust-chmod-conversion 
 
+[![tests](https://github.com/harrysharma1/rust-chmod/actions/workflows/tests.yaml/badge.svg)](https://github.com/harrysharma1/rust-chmod/actions/workflows/tests.yaml)
+
 ## What this is
 
 This is a simple command line tool that I made for practicing rust.
