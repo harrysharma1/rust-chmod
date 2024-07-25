@@ -25,7 +25,7 @@ $ chmod-conversion symbolic_to_octal rwx--x--x
 711
 ```
 
-### Conver from Octal to Symbolic
+### Convert from Octal to Symbolic
 
 ```
 $ chmod-conversion o 127
